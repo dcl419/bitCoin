@@ -27,7 +27,7 @@ func NewBlock(data string, preBlockHash []byte) *Block {
 	return &block
 }
 
-//6. 生成哈希
+// 6. 生成哈希
 func (block *Block) SetHash() {
 	// 1. 拼装数据
 	// block.Data...  将block.Data打散成byte
@@ -38,12 +38,35 @@ func (block *Block) SetHash() {
 	block.Hash = hash[:]
 }
 
-//7. 引入区块链
+// 7. 引入区块链
+type BlockChain struct {
+	// 定义一个区块链数组
+	blocks []*Block
+}
+
+// 7.1 定义一个区块链
+func NewBlockChain() *BlockChain {
+	// 创建创世块
+	genesisBlock := GenesisBlock()
+	return &BlockChain{
+		// 使用创世块初始化区块链
+		blocks: []*Block{genesisBlock},
+	}
+}
+
+// 7.2 创世块
+func GenesisBlock() *Block {
+	return NewBlock("创世块", []byte{})
+}
+
 //8. 添加区块
 //9. 重构代码
 
 func main() {
-	block := NewBlock("转一个bit", []byte{})
-	// %x 打印十六进制
-	fmt.Printf("%x, %x, %s", block.PreHash, block.Hash, block.Data)
+	bc := NewBlockChain()
+	for i, block := range bc.blocks {
+		// %x 打印十六进制
+		fmt.Printf("当前区块高度: %d, %x, %x, %s", i, block.PreHash, block.Hash, block.Data)
+	}
+
 }
