@@ -16,6 +16,7 @@ func main() {
 	if err != nil {
 		log.Panic("数据库打开失败")
 	}
+	defer db.Close()
 
 	// 2. 写 - 使用update - 找到db或者创建db
 	db.Update(func(tx *bolt.Tx) error {
