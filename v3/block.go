@@ -96,3 +96,9 @@ func (block *Block) SetHash() {
 
 	block.Hash = hash[:]
 }
+
+func (block *Block) toByte() []byte {
+
+	// TODO
+	return []byte{}
+}
