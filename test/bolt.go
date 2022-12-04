@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/boltdb/bolt"
 	"log"
 )
@@ -29,6 +30,19 @@ func main() {
 
 		bucket.Put([]byte("name"), []byte("dcl"))
 		bucket.Put([]byte("sb"), []byte("wanger"))
+		return nil
+	})
+
+	// 3. 读 - view
+	db.View(func(tx *bolt.Tx) error {
+		// 1. 找到抽屉 - 没有直接报错退出
+		bucket := tx.Bucket(bucketName)
+		if bucket == nil {
+			log.Panic("未找到bucket，请检查")
+		}
+		// 2. 有的话直接读取数据
+		value := bucket.Get([]byte("name"))
+		fmt.Printf("name: %s", value)
 		return nil
 	})
 
